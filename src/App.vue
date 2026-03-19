@@ -1,63 +1,65 @@
 <script setup>
-import { reactive, ref } from 'vue';
-import Progess from './components/Progess.vue';
+import Books from "./components/Books.vue";
+import { reactive } from "vue";
 
-// ref para primitivos: números, strings, booleanos
-let count = ref(0);
-
-// reactive para objetos
-let courses = reactive([
+let books = reactive([
   {
-    title: 'JavaScript',
-    done: true,
+    id: 1,
+    title: "History of Europe",
+    cover:
+      "https://printpress.cmsmasters.net/default/wp-content/uploads/sites/11/2019/05/printpress-product-6-540x861.jpg",
+    isRead: true,
+    isbn: "0-395-07157-8",
+    author: "Daniel Trejo",
   },
   {
-    title: 'Vue.js',
-    done: false,
+    id: 2,
+    title: "Penguin Classics",
+    cover:
+      "https://printpress.cmsmasters.net/default/wp-content/uploads/sites/11/2019/05/printpress-product-2-540x861.jpg",
+    isRead: false,
+    isbn: "0-395-07157-8",
+    author: "Daniel Trejo, Jon Snow",
   },
   {
-    title: 'Node.js',
-    done: true,
-  }
+    id: 3,
+    title: "Becoming",
+    cover:
+      "https://printpress.cmsmasters.net/default/wp-content/uploads/sites/11/2019/05/printpress-product-7-540x861.jpg",
+    isRead: false,
+    isbn: "0-395-07157-8",
+    author: "Daniel Trejo",
+  },
+  {
+    id: 4,
+    title: "Sonnets",
+    cover:
+      "https://printpress.cmsmasters.net/default/wp-content/uploads/sites/11/2019/05/printpress-product-5-540x861.jpg",
+    isRead: false,
+    isbn: "0-395-07157-8",
+    author: "Daniel Trejo",
+  },
 ]);
 
-let newCourse = {done: false};
-
-function incrementar() {
-  count.value++;
-}
-
-function addCourse() {
-  courses.push(newCourse);
-  newCourse = {done: false};
-}
-
-function completeCourse(title) {
-  courses.forEach(course => {
-    if (course.title === title) {
-      course.done = !course.done;
+function toggleIsRead(bookId) {
+  books.forEach(book => {
+    if (book.id === bookId) {
+      book.isRead = !book.isRead;
     }
   });
 }
-
 </script>
 
 <template>
-  <div>
-    <h1>Lista de cursos</h1>
-    <ul>
-      <li v-for="course in courses" :key="course.title">
-        <p :class="course.done ? 'outline' : ''" @click="completeCourse(course.title)">{{ course.title }}</p>
-      </li>
-    </ul>
+  <div class="container">
+    <h1>📖 Meus Livros</h1>
+    <div class="header-btns">
+      <button class="btn">Adicionar Livro +</button>
+    </div>
 
-    <br>
-
-    <input v-model="newCourse.title" type="text"/>
-    <button @click="addCourse">Adicionar curso</button>
-
-    <Progess :courses="courses" />
-
+    <div class="books-container">
+      <Books @toggleIsRead="toggleIsRead" :books="books" />
+    </div>
   </div>
 </template>
 
